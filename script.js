@@ -455,6 +455,7 @@ const regionalChart = new Chart(regionalCtx, {
 // Data tingkat kemiskinan per provinsi
 const povertyByProvince = {
   2020: {
+    Indonesia: 10.19,
     Aceh: 15.43,
     "Sumatera Utara": 9.14,
     "Sumatera Barat": 6.56,
@@ -491,6 +492,7 @@ const povertyByProvince = {
     Papua: 26.8,
   },
   2021: {
+    Indonesia: 9.71,
     Aceh: 15.53,
     "Sumatera Utara": 8.49,
     "Sumatera Barat": 6.04,
@@ -527,6 +529,7 @@ const povertyByProvince = {
     Papua: 27.38,
   },
   2022: {
+    Indonesia: 9.57,
     Aceh: 14.75,
     "Sumatera Utara": 8.33,
     "Sumatera Barat": 6.04,
@@ -563,6 +566,7 @@ const povertyByProvince = {
     Papua: 26.8,
   },
   2023: {
+    Indonesia: 9.36,
     Aceh: 14.45,
     "Sumatera Utara": 8.15,
     "Sumatera Barat": 5.95,
@@ -599,6 +603,7 @@ const povertyByProvince = {
     Papua: 26.03,
   },
   2024: {
+    Indonesia: 8.57,
     Aceh: 12.64,
     "Sumatera Utara": 7.19,
     "Sumatera Barat": 5.42,
@@ -646,6 +651,7 @@ const indonesiaGeoJSON = {
 };
 
 // Function to create a simplified map visualization since we can't load external GeoJSON
+// Function to create a simplified map visualization since we can't load external GeoJSON
 function renderProvinceMap(year) {
   const ctx = document.getElementById("mapChart").getContext("2d");
 
@@ -657,42 +663,13 @@ function renderProvinceMap(year) {
   // Get poverty data for the selected year
   const yearData = povertyByProvince[year];
 
+  // Add national average from allData
+  const nationalData = { ...yearData };
+  nationalData["Indonesia"] = allData.poverty.national[year];
+
   // Sort provinces by poverty rate for visualization
-  const sortedProvinces = Object.keys(yearData).sort(
-    (a, b) => yearData[b] - yearData[a]
-  );
-
-  // Create color gradients based on poverty levels
-  const getBarColor = (value) => {
-    if (value >= 20)
-      return {
-        backgroundColor: "rgba(239, 68, 68, 0.8)",
-        borderColor: "rgba(220, 38, 38, 1)",
-      }; // High poverty (red)
-    if (value >= 15)
-      return {
-        backgroundColor: "rgba(234, 179, 8, 0.8)",
-        borderColor: "rgba(202, 138, 4, 1)",
-      }; // Medium-high poverty (yellow)
-    if (value >= 10)
-      return {
-        backgroundColor: "rgba(59, 130, 246, 0.7)",
-        borderColor: "rgba(37, 99, 235, 1)",
-      }; // Medium poverty (blue)
-    if (value >= 5)
-      return {
-        backgroundColor: "rgba(14, 165, 233, 0.6)",
-        borderColor: "rgba(3, 105, 161, 1)",
-      }; // Low-medium poverty (light blue)
-    return {
-      backgroundColor: "rgba(34, 197, 94, 0.6)",
-      borderColor: "rgba(22, 163, 74, 1)",
-    }; // Low poverty (green)
-  };
-
-  // Map data to colors for visualization
-  const barColors = sortedProvinces.map((province) =>
-    getBarColor(yearData[province])
+  const sortedProvinces = Object.keys(nationalData).sort(
+    (a, b) => nationalData[b] - nationalData[a]
   );
 
   // Create a horizontal bar chart
@@ -703,12 +680,18 @@ function renderProvinceMap(year) {
       datasets: [
         {
           label: `Tingkat Kemiskinan (${year})`,
-          data: sortedProvinces.map((province) => yearData[province]),
+          data: sortedProvinces.map((province) => nationalData[province]),
           backgroundColor: sortedProvinces.map(
-            (province) => getBarColor(yearData[province]).backgroundColor
+            (province) =>
+              province === "Indonesia"
+                ? "rgba(239, 68, 68, 0.8)" // Merah untuk Indonesia
+                : "rgba(59, 130, 246, 0.7)" // Biru untuk provinsi
           ),
           borderColor: sortedProvinces.map(
-            (province) => getBarColor(yearData[province]).borderColor
+            (province) =>
+              province === "Indonesia"
+                ? "rgba(220, 38, 38, 1)" // Border merah untuk Indonesia
+                : "rgba(37, 99, 235, 1)" // Border biru untuk provinsi
           ),
           borderWidth: 1,
           borderRadius: 4,
@@ -815,7 +798,6 @@ function renderProvinceMap(year) {
     ".dashboard-header p"
   ).textContent = `Analisis Indikator Sosial Ekonomi 2020-${year}`;
 }
-
 // Initialize the visualization when the DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
   const defaultYear = "2024";
