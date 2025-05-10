@@ -289,11 +289,6 @@ const urbanRuralChart = new Chart(urbanRuralCtx, {
     labels: years,
     datasets: [
       {
-        label: "Nasional",
-        data: [10.19, 9.71, 9.57, 9.36, 8.57],
-        backgroundColor: "#ef4444",
-      },
-      {
         label: "Perkotaan",
         data: [7.88, 7.6, 7.53, 7.29, 6.66],
         backgroundColor: "#3b82f6",
@@ -302,6 +297,11 @@ const urbanRuralChart = new Chart(urbanRuralCtx, {
         label: "Pedesaan",
         data: [13.2, 12.53, 12.36, 12.22, 11.34],
         backgroundColor: "#22c55e",
+      },
+      {
+        label: "Perkotaan + Pedesaan",
+        data: [10.19, 9.71, 9.57, 9.36, 8.57],
+        backgroundColor: "#ef4444",
       },
     ],
   },
@@ -424,13 +424,13 @@ const regionalChart = new Chart(regionalCtx, {
         tension: 0.3,
       },
       {
-        label: "Nusa Tenggara",
+        label: "Bali & Nusa Tenggara",
         data: [13.3, 13.0, 12.86, 12.69, 11.58],
         borderColor: "#8b5cf6",
         tension: 0.3,
       },
       {
-        label: "Papua",
+        label: "Maluku & Papua",
         data: [18.37, 17.97, 17.71, 17.35, 19.32],
         borderColor: "#ec4899",
         tension: 0.3,
