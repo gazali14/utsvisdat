@@ -140,6 +140,7 @@ function updateKPIs(year) {
   // Update Poverty Rate KPI
   document.getElementById("kpi-poverty-rate").textContent =
     currentData.povertyRate.toFixed(2) + "%";
+
   if (prevData) {
     const povertyDiff = (
       currentData.povertyRate - prevData.povertyRate
@@ -150,11 +151,14 @@ function updateKPIs(year) {
     }${povertyDiff}% dari tahun lalu`;
     povertyTrendEl.className =
       povertyDiff < 0 ? "kpi-trend trend-down" : "kpi-trend trend-up";
+  } else {
+    document.getElementById("kpi-poverty-trend").textContent = "–";
   }
 
   // Update Gini Index KPI
   document.getElementById("kpi-gini").textContent =
     currentData.giniIndex.toFixed(3);
+
   if (prevData) {
     const giniDiff = (currentData.giniIndex - prevData.giniIndex).toFixed(3);
     const giniTrendEl = document.getElementById("kpi-gini-trend");
@@ -163,11 +167,14 @@ function updateKPIs(year) {
     }${giniDiff} dari tahun lalu`;
     giniTrendEl.className =
       giniDiff < 0 ? "kpi-trend trend-down" : "kpi-trend trend-up";
+  } else {
+    document.getElementById("kpi-gini-trend").textContent = "–";
   }
 
   // Update Poor Population KPI
   document.getElementById("kpi-poor-pop").textContent =
     currentData.poorPopulation.toFixed(1) + " juta";
+
   if (prevData) {
     const popDiff = (
       currentData.poorPopulation - prevData.poorPopulation
@@ -178,21 +185,8 @@ function updateKPIs(year) {
     }${popDiff} juta dari tahun lalu`;
     popTrendEl.className =
       popDiff < 0 ? "kpi-trend trend-down" : "kpi-trend trend-up";
-  }
-
-  // Update Expenditure Ratio KPI
-  document.getElementById("kpi-exp-ratio").textContent =
-    currentData.expenditureRatio.toFixed(2);
-  if (prevData) {
-    const ratioDiff = (
-      currentData.expenditureRatio - prevData.expenditureRatio
-    ).toFixed(2);
-    const ratioTrendEl = document.getElementById("kpi-exp-ratio-trend");
-    ratioTrendEl.textContent = `${
-      ratioDiff > 0 ? "+" : ""
-    }${ratioDiff} dari tahun lalu`;
-    ratioTrendEl.className =
-      ratioDiff < 0 ? "kpi-trend trend-down" : "kpi-trend trend-up";
+  } else {
+    document.getElementById("kpi-poor-pop-trend").textContent = "–";
   }
 }
 
