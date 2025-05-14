@@ -276,6 +276,15 @@ const trendChart = new Chart(trendCtx, {
         },
       },
     },
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 9, // Ganti ukuran sesuai kebutuhan, misalnya 8 untuk lebih kecil
+          },
+        },
+      },
+    },
   },
 });
 
@@ -291,17 +300,17 @@ const urbanRuralChart = new Chart(urbanRuralCtx, {
       {
         label: "Perkotaan",
         data: [7.88, 7.6, 7.53, 7.29, 6.66],
-        backgroundColor: "#3b82f6",
+        backgroundColor: "#08306b",
       },
       {
         label: "Pedesaan",
         data: [13.2, 12.53, 12.36, 12.22, 11.34],
-        backgroundColor: "#22c55e",
+        backgroundColor: "#2171b5",
       },
       {
         label: "Perkotaan + Pedesaan",
         data: [10.19, 9.71, 9.57, 9.36, 8.57],
-        backgroundColor: "#ef4444",
+        backgroundColor: "#c6dbef",
       },
     ],
   },
@@ -314,6 +323,30 @@ const urbanRuralChart = new Chart(urbanRuralCtx, {
         title: {
           display: true,
           text: "Persentase (%)",
+          font: {
+            size: 12, // Ukuran font untuk judul sumbu Y
+          },
+        },
+        ticks: {
+          font: {
+            size: 10, // Ukuran font untuk label sumbu Y
+          },
+        },
+      },
+      x: {
+        ticks: {
+          font: {
+            size: 10, // Ukuran font untuk label sumbu X
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 9, // Ukuran font untuk legend
+          },
         },
       },
     },
@@ -449,11 +482,24 @@ const regionalChart = new Chart(regionalCtx, {
         },
       },
     },
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 9, // Ubah angka ini untuk memperbesar atau memperkecil
+          },
+        },
+      },
+    },
   },
 });
 
-// Data tingkat kemiskinan per provinsi
-const povertyByProvince = {
+// === GLOBAL VARIABLES ===
+let provinsiTerpilih = "INDONESIA"; // Default nasional
+let map, geoLayer;
+const tahunList = ["2020", "2021", "2022", "2023", "2024"];
+
+const kemiskinanData = {
   2020: {
     Indonesia: 10.19,
     Aceh: 15.43,
@@ -489,6 +535,10 @@ const povertyByProvince = {
     Maluku: 17.99,
     "Maluku Utara": 6.97,
     "Papua Barat": 21.7,
+    "Papua Barat Daya": null,
+    "Papua Selatan": null,
+    "Papua Tengah": null,
+    "Papua Pegunungan": null,
     Papua: 26.8,
   },
   2021: {
@@ -526,6 +576,10 @@ const povertyByProvince = {
     Maluku: 16.3,
     "Maluku Utara": 6.38,
     "Papua Barat": 21.82,
+    "Papua Barat Daya": null,
+    "Papua Selatan": null,
+    "Papua Tengah": null,
+    "Papua Pegunungan": null,
     Papua: 27.38,
   },
   2022: {
@@ -563,6 +617,10 @@ const povertyByProvince = {
     Maluku: 16.23,
     "Maluku Utara": 6.37,
     "Papua Barat": 21.43,
+    "Papua Barat Daya": null,
+    "Papua Selatan": null,
+    "Papua Tengah": null,
+    "Papua Pegunungan": null,
     Papua: 26.8,
   },
   2023: {
@@ -600,6 +658,10 @@ const povertyByProvince = {
     Maluku: 16.42,
     "Maluku Utara": 6.46,
     "Papua Barat": 20.49,
+    "Papua Barat Daya": null,
+    "Papua Selatan": null,
+    "Papua Tengah": null,
+    "Papua Pegunungan": null,
     Papua: 26.03,
   },
   2024: {
@@ -637,178 +699,94 @@ const povertyByProvince = {
     Maluku: 15.78,
     "Maluku Utara": 6.03,
     "Papua Barat": 21.09,
+    "Papua Barat Daya": 18.13,
+    "Papua Selatan": 17.44,
+    "Papua Tengah": 29.76,
+    "Papua Pegunungan": 32.97,
     Papua: 18.09,
   },
 };
 
-// In-memory Indonesia GeoJSON data for provinces (simplified)
-const indonesiaGeoJSON = {
-  type: "FeatureCollection",
-  features: [
-    // We'll use a simplified approach instead of a full GeoJSON file
-    // and create a simpler visualization for demonstration
-  ],
-};
+// === INISIALISASI PETA ===
+map = L.map("map").setView([-2.5, 118], 4.2);
 
-// Function to create a simplified map visualization since we can't load external GeoJSON
-// Function to create a simplified map visualization since we can't load external GeoJSON
-function renderProvinceMap(year) {
-  const ctx = document.getElementById("mapChart").getContext("2d");
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: "© OpenStreetMap",
+}).addTo(map);
 
-  // Clear existing chart if any
-  if (window.mapChartInstance) {
-    window.mapChartInstance.destroy();
-  }
+// Tambahkan latar gelap di luar Indonesia
+addDarkBackground();
 
-  // Get poverty data for the selected year
-  const yearData = povertyByProvince[year];
-
-  // Add national average from allData
-  const nationalData = { ...yearData };
-  nationalData["Indonesia"] = allData.poverty.national[year];
-
-  // Sort provinces by poverty rate for visualization
-  const sortedProvinces = Object.keys(nationalData).sort(
-    (a, b) => nationalData[b] - nationalData[a]
-  );
-
-  // Create a horizontal bar chart
-  window.mapChartInstance = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: sortedProvinces,
-      datasets: [
-        {
-          label: `Tingkat Kemiskinan (${year})`,
-          data: sortedProvinces.map((province) => nationalData[province]),
-          backgroundColor: sortedProvinces.map(
-            (province) =>
-              province === "Indonesia"
-                ? "rgba(239, 68, 68, 0.8)" // Merah untuk Indonesia
-                : "rgba(59, 130, 246, 0.7)" // Biru untuk provinsi
-          ),
-          borderColor: sortedProvinces.map(
-            (province) =>
-              province === "Indonesia"
-                ? "rgba(220, 38, 38, 1)" // Border merah untuk Indonesia
-                : "rgba(37, 99, 235, 1)" // Border biru untuk provinsi
-          ),
-          borderWidth: 1,
-          borderRadius: 4,
-          barPercentage: 0.85,
-          maxBarThickness: 25,
-        },
-      ],
-    },
-    options: {
-      indexAxis: "y", // Makes it a horizontal bar chart
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: {
-        padding: {
-          left: 10,
-          right: 20,
-          top: 15,
-          bottom: 10,
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          titleFont: {
-            size: 14,
-            weight: "bold",
-            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-          },
-          bodyFont: {
-            size: 13,
-            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-          },
-          padding: 12,
-          cornerRadius: 6,
-          displayColors: false,
-          callbacks: {
-            title: (items) => {
-              return items[0].label;
-            },
-            label: (ctx) => {
-              return `Tingkat Kemiskinan: ${ctx.formattedValue}%`;
-            },
-          },
-        },
-      },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: "Persentase Kemiskinan (%)",
-            font: {
-              size: 14,
-              family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-            },
-            padding: {
-              top: 10,
-              bottom: 0,
-            },
-            color: "#000000",
-          },
-          beginAtZero: true,
-          grid: {
-            color: "rgba(224, 224, 224, 0.5)",
-            drawBorder: false,
-            borderDash: [3, 3],
-          },
-          ticks: {
-            font: {
-              size: 12,
-              family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-            },
-            color: "#666",
-            padding: 8,
-          },
-        },
-        y: {
-          grid: {
-            display: false,
-            drawBorder: false,
-          },
-          ticks: {
-            autoSkip: false,
-            font: {
-              size: 11,
-              family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-            },
-            color: "#333",
-            padding: 8,
-          },
-        },
-      },
-      animation: {
-        duration: 1000,
-        easing: "easeOutQuart",
-      },
-    },
-  });
-
-  // Update other parts of the interface based on the selected year
-  document.querySelector(
-    ".dashboard-header p"
-  ).textContent = `Analisis Indikator Sosial Ekonomi 2020-${year}`;
+// === FUNGSI WARNA PETA UNTUK KEMISKINAN ===
+function getColorKemiskinan(val) {
+  return val > 20
+    ? "#08306b"
+    : val > 15
+    ? "#2171b5"
+    : val > 10
+    ? "#6baed6"
+    : val > 5
+    ? "#c6dbef"
+    : "#eff3ff";
 }
-// Initialize the visualization when the DOM is loaded
-document.addEventListener("DOMContentLoaded", function () {
-  const defaultYear = "2024";
-  document.getElementById("year").value = defaultYear;
 
-  // Render the initial chart
-  renderProvinceMap(defaultYear);
+// === UPDATE PETA KEMISKINAN ===
+function updateMapKemiskinan(tahun) {
+  const dataTahun = kemiskinanData[tahun];
 
-  // Update visualizations when year changes
-  document.getElementById("year").addEventListener("change", function () {
-    const selectedYear = this.value;
-    renderProvinceMap(selectedYear);
-  });
-});
+  if (geoLayer) geoLayer.remove();
+
+  geoLayer = L.geoJson(window.geoData, {
+    style: (feature) => {
+      const provinsi = feature.properties.PROVINSI;
+      const val = dataTahun[provinsi] || 0;
+      return {
+        fillColor: getColorKemiskinan(val),
+        weight: 1,
+        color: "white",
+        fillOpacity: 0.7,
+      };
+    },
+    onEachFeature: (feature, layer) => {
+      const provinsi = feature.properties.PROVINSI;
+      const val = dataTahun[provinsi] || 0;
+
+      layer.bindPopup(
+        `<strong>${provinsi}</strong><br>Tingkat Kemiskinan: ${val.toFixed(2)}%`
+      );
+
+      layer.on("click", () => {
+        // Toggle provinsi
+        provinsiTerpilih =
+          provinsiTerpilih === provinsi ? "INDONESIA" : provinsi;
+        updateBarChart(); // opsional
+        buildAndUpdateLineCharts(); // opsional
+        layer.openPopup();
+      });
+    },
+  }).addTo(map);
+}
+
+// === DARK BACKGROUND DI LUAR INDONESIA ===
+function addDarkBackground() {
+  const worldBounds = [
+    [-90, -180],
+    [90, 180],
+  ];
+  const indonesiaBounds = [
+    [-11, 95],
+    [6, 141],
+  ];
+
+  L.rectangle(worldBounds, {
+    color: "#000",
+    weight: 0,
+    fillOpacity: 0.5,
+  }).addTo(map);
+
+  L.rectangle(indonesiaBounds, {
+    color: "#000",
+    weight: 0,
+    fillOpacity: 0,
+  }).addTo(map);
+}
