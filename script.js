@@ -219,8 +219,8 @@ const trendChart = new Chart(trendCtx, {
       {
         label: "Tingkat Kemiskinan (%)",
         data: [10.19, 9.71, 9.57, 9.36, 8.57],
-        borderColor: "#ef4444",
-        backgroundColor: "rgba(239, 68, 68, 0.1)",
+        borderColor: "#fdae6b", // oranye terang
+        backgroundColor: "rgba(253, 174, 107, 0.2)", // oranye terang transparan
         yAxisID: "y",
         tension: 0.3,
         fill: true,
@@ -228,8 +228,8 @@ const trendChart = new Chart(trendCtx, {
       {
         label: "Indeks Gini",
         data: [0.385, 0.381, 0.381, 0.388, 0.381],
-        borderColor: "#3b82f6",
-        backgroundColor: "rgba(59, 130, 246, 0.1)",
+        borderColor: "#e34a33", // merah-oranye gelap (kontras)
+        backgroundColor: "rgba(227, 74, 51, 0.1)", // transparan
         yAxisID: "y1",
         tension: 0.3,
         fill: true,
@@ -294,17 +294,17 @@ const urbanRuralChart = new Chart(urbanRuralCtx, {
       {
         label: "Perkotaan",
         data: [7.88, 7.6, 7.53, 7.29, 6.66],
-        backgroundColor: "#08306b",
+        backgroundColor: "#7f0000",
       },
       {
         label: "Pedesaan",
         data: [13.2, 12.53, 12.36, 12.22, 11.34],
-        backgroundColor: "#2171b5",
+        backgroundColor: "#d7301f",
       },
       {
         label: "Perkotaan + Pedesaan",
         data: [10.19, 9.71, 9.57, 9.36, 8.57],
-        backgroundColor: "#c6dbef",
+        backgroundColor: "#fdd49e",
       },
     ],
   },
@@ -429,37 +429,37 @@ const regionalChart = new Chart(regionalCtx, {
       {
         label: "Jawa",
         data: [9.31, 8.82, 8.63, 8.4, 7.74],
-        borderColor: "#ef4444",
+        borderColor: "#eab308",
         tension: 0.3,
       },
       {
         label: "Sumatera",
         data: [9.82, 9.4, 9.2, 9.0, 8.24],
-        borderColor: "#3b82f6",
+        borderColor: "#ffe100",
         tension: 0.3,
       },
       {
         label: "Kalimantan",
         data: [6.28, 5.93, 5.99, 5.73, 5.28],
-        borderColor: "#22c55e",
+        borderColor: "#e8b778",
         tension: 0.3,
       },
       {
         label: "Sulawesi",
         data: [11.44, 11.18, 11.17, 11.09, 10.12],
-        borderColor: "#eab308",
+        borderColor: "#ef4444",
         tension: 0.3,
       },
       {
         label: "Bali & Nusa Tenggara",
         data: [13.3, 13.0, 12.86, 12.69, 11.58],
-        borderColor: "#8b5cf6",
+        borderColor: "#d7301f",
         tension: 0.3,
       },
       {
         label: "Maluku & Papua",
         data: [18.37, 17.97, 17.71, 17.35, 19.32],
-        borderColor: "#ec4899",
+        borderColor: "#00000",
         tension: 0.3,
       },
     ],
@@ -714,14 +714,14 @@ addDarkBackground();
 // === FUNGSI WARNA PETA UNTUK KEMISKINAN ===
 function getColorKemiskinan(val) {
   return val > 20
-    ? "#08306b"
+    ? "#7f0000" // merah tua
     : val > 15
-    ? "#2171b5"
+    ? "#d7301f" // merah
     : val > 10
-    ? "#6baed6"
+    ? "#fc8d59" // oranye
     : val > 5
-    ? "#c6dbef"
-    : "#eff3ff";
+    ? "#fdd49e" // kuning oranye terang
+    : "#fff7ec"; // kuning sangat terang
 }
 
 // === UPDATE PETA KEMISKINAN ===
