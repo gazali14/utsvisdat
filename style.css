@@ -2,16 +2,14 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #fffbfb;
+  background-color: #f5f5f5;
   color: #333;
-  top: 0;
 }
 
 .dashboard-container {
   max-width: 100%;
   margin: 0 auto;
   padding: 12px;
-  box-sizing: border-box; /* Tambahkan ini */
 }
 
 .dashboard-header {
@@ -118,8 +116,20 @@ body {
   margin-bottom: 10px;
 }
 
+.kpi-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .kpi-value {
-  font-size: 1.2em;
+  font-size: 1.8em;
   font-weight: bold;
   margin: 10px 0 5px;
   color: #005e9b;
@@ -133,6 +143,7 @@ body {
 
 .kpi-trend {
   font-size: 0.8em;
+  margin-top: 5px;
 }
 
 .trend-down {
@@ -156,24 +167,24 @@ body {
 }
 
 .map-card {
-  flex: 1;
+  flex: 1.4;
 }
 
 .map-legend {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 8 px;
   margin-top: 5px;
-  padding: 5px;
+  padding: 6px 10px;
   background-color: #ffffff;
   border-radius: 6px;
-  font-size: 0.9em;
+  font-size: 0.75em;
   position: relative;
 }
 
 .map-container {
   display: flex;
-  height: 250px;
+  height: 220px;
   flex-direction: column;
 }
 
@@ -181,7 +192,7 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 4px;
-  background-color: white;
+  background-color: #f1f1f1;
 }
 
 .legend-item {
@@ -247,144 +258,6 @@ body {
   }
 
   .kpi-card {
-    min-width: 40%;
+    min-width: 45%;
   }
-}
-
-/* Tambahkan style baru di akhir file CSS */
-
-/* Layout baru */
-.first-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-  height: 50vh; /* Tinggi 60% dari viewport */
-}
-
-.second-row {
-  display: flex;
-  gap: 10px;
-  height: 50vh; /* Tinggi 35% dari viewport */
-}
-
-.kpi-column {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px; /* Jarak antar card */
-}
-
-/* KPI Card */
-.kpi-card {
-  flex: 0 0 35%;
-  margin: 5px;
-  padding: 10px;
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  min-height: 80px;
-  max-height: 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 5px;
-  align-items: center;
-}
-
-/* Map Card */
-.map-card {
-  flex: 0 0 40%;
-  padding: 15px;
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-}
-
-/* Scatter Card */
-.scatter-card {
-  flex: 0 0 35%;
-  padding: 15px;
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-}
-
-/* Penyesuaian tinggi chart */
-.first-row .chart-container {
-  height: calc(100% - 40px); /* 40px untuk judul dan margin */
-}
-
-.second-row .chart-container {
-  height: calc(100% - 40px);
-}
-
-/* Penyesuaian KPI Card */
-.first-row .kpi-card {
-  flex: 1;
-  margin: 0;
-  padding: 10px;
-}
-
-/* Penyesuaian map container */
-.map-container {
-  height: 100%;
-  position: relative;
-}
-
-/* Insights card */
-.insights-card {
-  flex: 0 0 30%;
-  padding: 15px;
-  overflow-y: auto; /* Scroll jika konten terlalu panjang */
-}
-
-/* Responsive */
-@media (max-width: 1200px) {
-  .first-row,
-  .second-row {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .kpi-column,
-  .map-card,
-  .scatter-card {
-    flex: 1 1 100%;
-  }
-
-  .first-row .chart-container,
-  .second-row .chart-container {
-    height: 300px;
-  }
-}
-
-/* Penyesuaian ukuran font untuk judul */
-.card h2,
-.scatter-card h2,
-.map-card h2 {
-  font-size: 0.9em;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  color: #005e9b;
-  padding-left: 5px;
-}
-
-/* Penyesuaian ukuran KPI */
-.kpi-value {
-  font-size: 1.5em;
-}
-
-.kpi-label {
-  font-size: 0.9em;
-}
-
-.kpi-trend {
-  font-size: 0.8em;
 }
