@@ -46,66 +46,113 @@
         </div>
       </div>
 
-      <div class="kpi-row">
-        <div class="kpi-card">
-          <div class="kpi-label">Tingkat Kemiskinan Nasional</div>
-          <div class="kpi-value" id="kpi-poverty-rate">9.36%</div>
-          <div class="kpi-trend trend-down" id="kpi-poverty-trend">
-            -0.18% dari tahun lalu
+      <!-- Baris Pertama: KPI, Map, Scatter -->
+      <div class="first-row">
+        <div class="kpi-column">
+          <div class="kpi-card">
+            <div class="kpi-label">Tingkat Kemiskinan Nasional</div>
+            <div class="kpi-value" id="kpi-poverty-rate">9.36%</div>
+            <div class="kpi-trend trend-down" id="kpi-poverty-trend">
+              -0.18% dari tahun lalu
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Indeks Gini Nasional</div>
+            <div class="kpi-value" id="kpi-gini">0.378</div>
+            <div class="kpi-trend trend-down" id="kpi-gini-trend">
+              -0.006 dari tahun lalu
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Jumlah Penduduk Miskin Indonesia</div>
+            <div class="kpi-value" id="kpi-poor-pop">25.7 juta</div>
+            <div class="kpi-trend trend-down" id="kpi-poor-pop-trend">
+              -0.83 juta dari tahun lalu
+            </div>
           </div>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Indeks Gini Nasional</div>
-          <div class="kpi-value" id="kpi-gini">0.378</div>
-          <div class="kpi-trend trend-down" id="kpi-gini-trend">
-            -0.006 dari tahun lalu
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Jumlah Penduduk Miskin Indonesia</div>
-          <div class="kpi-value" id="kpi-poor-pop">25.7 juta</div>
-          <div class="kpi-trend trend-down" id="kpi-poor-pop-trend">
-            -0.83 juta dari tahun lalu
-          </div>
-        </div>
-      </div>
 
-      <!-- Map and Urban/Rural Chart Row -->
-
-      <div class="row">
-        <div class="card">
+        <div class="map-card">
           <h2>Distribusi Kemiskinan per Provinsi</h2>
           <div class="chart-container map-container">
             <div id="map"></div>
             <div class="map-legend">
-              <span class="legend-item">
-                <i style="background: #fff7ec"></i> &lt; 5%
-              </span>
-              <span class="legend-item">
-                <i style="background: #fdd49e"></i> 5–10%
-              </span>
-              <span class="legend-item">
-                <i style="background: #fc8d59"></i> 10–15%
-              </span>
-              <span class="legend-item">
-                <i style="background: #d7301f"></i> 15–20%
-              </span>
-              <span class="legend-item">
-                <i style="background: #7f0000"></i> &gt; 20%
-              </span>
+              <!-- Legend tetap sama -->
+              <div class="map-legend">
+                <span class="legend-item">
+                  <i style="background: #0073e6"></i> &lt; 5%
+                </span>
+                <span class="legend-item">
+                  <i style="background: #66b2ff"></i> 5–10%
+                </span>
+                <span class="legend-item">
+                  <i style="background: #fd8d3c"></i> 10–15%
+                </span>
+                <span class="legend-item">
+                  <i style="background: #ff5733"></i> 15–20%
+                </span>
+                <span class="legend-item">
+                  <i style="background: #e60000"></i> &gt; 20%
+                </span>
+              </div>
             </div>
           </div>
         </div>
-        <div class="card">
-          <h2>Tren Indeks Gini dan Tingkat Kemiskinan Nasional</h2>
+
+        <div class="scatter-card">
+          <h2>Sebaran Indeks Gini dan Tingkat Kemiskinan per Provinsi</h2>
           <div class="chart-container">
-            <canvas id="trendChart"></canvas>
+            <canvas id="scatterChart"></canvas>
           </div>
         </div>
       </div>
 
+      <!-- Baris Kedua: Urban/Rural, Regional, Insights -->
+      <div class="second-row">
+        <div class="card">
+          <h2>Tingkat Kemiskinan: Perkotaan vs Pedesaan</h2>
+          <div class="chart-container">
+            <canvas id="urbanRuralChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Tren Rata-Rata Kemiskinan per Kepulauan</h2>
+          <div class="chart-container">
+            <canvas id="regionalChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card2 insights-card">
+          <h2>Insights:</h2>
+          <ul>
+            <li>
+              Provinsi di Indonesia Timur masih memiliki tingkat kemiskinan
+              tertinggi, khususnya Papua dan NTT
+            </li>
+            <li>
+              Kesenjangan kemiskinan antara perkotaan dan pedesaan cenderung
+              menyempit dalam 5 tahun terakhir
+            </li>
+            <li>Terjadi penurunan tingkat kemiskinan dari tahun 2020-2024</li>
+            <li>
+              Indeks Gini nasional menunjukkan tren fluktuatif sepanjang
+              2020–2024, mencerminkan ketimpangan pendapatan yang berubah-ubah
+              akibat dinamika sosial ekonomi tiap tahunnya.
+            </li>
+          </ul>
+          <h2>Catatan:</h2>
+          <ul>
+            <li>
+              Belum mengikutkan data provinsi hasil pemekaran Papua dan Papua
+              Barat
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <!-- Regional and Trend Charts Row -->
-      <div class="row">
+      <div class="row" style="display: none">
         <div class="card">
           <h2>Tingkat Kemiskinan: Perkotaan vs Pedesaan</h2>
           <div class="chart-container">
@@ -165,6 +212,70 @@
         </div>
       </div>
 
+      <div class="kpi-row" style="display: none">
+        <div class="kpi-card">
+          <div class="kpi-label">Tingkat Kemiskinan Nasional</div>
+          <div class="kpi-value" id="kpi-poverty-rate">9.36%</div>
+          <div class="kpi-trend trend-down" id="kpi-poverty-trend">
+            -0.18% dari tahun lalu
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Indeks Gini Nasional</div>
+          <div class="kpi-value" id="kpi-gini">0.378</div>
+          <div class="kpi-trend trend-down" id="kpi-gini-trend">
+            -0.006 dari tahun lalu
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Jumlah Penduduk Miskin Indonesia</div>
+          <div class="kpi-value" id="kpi-poor-pop">25.7 juta</div>
+          <div class="kpi-trend trend-down" id="kpi-poor-pop-trend">
+            -0.83 juta dari tahun lalu
+          </div>
+        </div>
+      </div>
+
+      <!-- Map and Urban/Rural Chart Row -->
+      <div class="row" style="display: none">
+        <div class="card">
+          <h2>Distribusi Kemiskinan per Provinsi</h2>
+          <div class="chart-container map-container">
+            <div id="map"></div>
+            <div class="map-legend">
+              <span class="legend-item">
+                <i style="background: #0073e6"></i> &lt; 5%
+              </span>
+              <span class="legend-item">
+                <i style="background: #66b2ff"></i> 5–10%
+              </span>
+              <span class="legend-item">
+                <i style="background: #fd8d3c"></i> 10–15%
+              </span>
+              <span class="legend-item">
+                <i style="background: #ff5733"></i> 15–20%
+              </span>
+              <span class="legend-item">
+                <i style="background: #e60000"></i> &gt; 20%
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="display: none">
+          <h2>Tren Indeks Gini dan Tingkat Kemiskinan Nasional</h2>
+          <div class="chart-container">
+            <canvas id="trendChart"></canvas>
+          </div>
+        </div>
+        <!-- Scatter Plot Row -->
+        <div class="card">
+          <h2>Hubungan Indeks Gini dan Tingkat Kemiskinan per Provinsi</h2>
+          <div class="chart-container">
+            <canvas id="scatterChart"></canvas>
+          </div>
+        </div>
+      </div>
+
       <div class="footer">
         <p>
           ©La Ode Muhammad Gazali | Data bersumber dari Badan Pusat Statistik
@@ -188,6 +299,9 @@
       document.getElementById("year").addEventListener("change", (e) => {
         updateMapKemiskinan(e.target.value);
       });
+
+      // Panggil inisialisasi saat halaman dimuat
+      initScatterPlot();
     </script>
   </body>
 </html>

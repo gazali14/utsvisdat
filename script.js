@@ -209,6 +209,351 @@ function handleYearChange() {
 // Set up event listeners
 document.getElementById("year").addEventListener("change", handleYearChange);
 
+// Fungsi untuk mendapatkan data gabungan Gini dan Kemiskinan per provinsi
+function getCombinedProvinceData(year) {
+  const giniData = Indeksgini[year];
+  const povertyData = kemiskinanData[year];
+
+  const combinedData = [];
+
+  for (const province in povertyData) {
+    if (
+      province !== "Indonesia" &&
+      giniData[province] &&
+      povertyData[province]
+    ) {
+      combinedData.push({
+        province: province,
+        gini: giniData[province],
+        poverty: povertyData[province],
+      });
+    }
+  }
+
+  return combinedData;
+}
+
+const Indeksgini = {
+  2020: {
+    Aceh: 0.319,
+    "Sumatera Utara": 0.314,
+    "Sumatera Barat": 0.301,
+    Riau: 0.321,
+    Jambi: 0.316,
+    "Sumatera Selatan": 0.338,
+    Bengkulu: 0.323,
+    Lampung: 0.32,
+    "Kepulauan Bangka Belitung": 0.257,
+    "Kepulauan Riau": 0.334,
+    "DKI Jakarta": 0.4,
+    "Jawa Barat": 0.398,
+    "Jawa Tengah": 0.359,
+    "DI Yogyakarta": 0.437,
+    "Jawa Timur": 0.364,
+    Banten: 0.365,
+    Bali: 0.369,
+    "Nusa Tenggara Barat": 0.386,
+    "Nusa Tenggara Timur": 0.356,
+    "Kalimantan Barat": 0.325,
+    "Kalimantan Tengah": 0.32,
+    "Kalimantan Selatan": 0.351,
+    "Kalimantan Timur": 0.335,
+    "Kalimantan Utara": 0.3,
+    "Sulawesi Utara": 0.368,
+    "Sulawesi Tengah": 0.321,
+    "Sulawesi Selatan": 0.382,
+    "Sulawesi Tenggara": 0.388,
+    Gorontalo: 0.406,
+    "Sulawesi Barat": 0.356,
+    Maluku: 0.326,
+    "Maluku Utara": 0.29,
+    "Papua Barat": 0.376,
+    "Papua Barat Daya": null,
+    Papua: 0.395,
+    "Papua Selatan": null,
+    "Papua Tengah": null,
+    "Papua Pegunungan": null,
+  },
+  2021: {
+    Aceh: 0.323,
+    "Sumatera Utara": 0.313,
+    "Sumatera Barat": 0.3,
+    Riau: 0.327,
+    Jambi: 0.315,
+    "Sumatera Selatan": 0.34,
+    Bengkulu: 0.321,
+    Lampung: 0.314,
+    "Kepulauan Bangka Belitung": 0.247,
+    "Kepulauan Riau": 0.339,
+    "DKI Jakarta": 0.411,
+    "Jawa Barat": 0.406,
+    "Jawa Tengah": 0.368,
+    "DI Yogyakarta": 0.436,
+    "Jawa Timur": 0.364,
+    Banten: 0.363,
+    Bali: 0.375,
+    "Nusa Tenggara Barat": 0.384,
+    "Nusa Tenggara Timur": 0.339,
+    "Kalimantan Barat": 0.315,
+    "Kalimantan Tengah": 0.32,
+    "Kalimantan Selatan": 0.325,
+    "Kalimantan Timur": 0.331,
+    "Kalimantan Utara": 0.285,
+    "Sulawesi Utara": 0.359,
+    "Sulawesi Tengah": 0.326,
+    "Sulawesi Selatan": 0.377,
+    "Sulawesi Tenggara": 0.394,
+    Gorontalo: 0.409,
+    "Sulawesi Barat": 0.366,
+    Maluku: 0.316,
+    "Maluku Utara": 0.278,
+    "Papua Barat": 0.374,
+    "Papua Barat Daya": null,
+    Papua: 0.396,
+    "Papua Selatan": null,
+    "Papua Tengah": null,
+    "Papua Pegunungan": null,
+  },
+  2022: {
+    Aceh: 0.291,
+    "Sumatera Utara": 0.326,
+    "Sumatera Barat": 0.292,
+    Riau: 0.323,
+    Jambi: 0.335,
+    "Sumatera Selatan": 0.33,
+    Bengkulu: 0.315,
+    Lampung: 0.313,
+    "Kepulauan Bangka Belitung": 0.255,
+    "Kepulauan Riau": 0.325,
+    "DKI Jakarta": 0.412,
+    "Jawa Barat": 0.412,
+    "Jawa Tengah": 0.366,
+    "DI Yogyakarta": 0.459,
+    "Jawa Timur": 0.365,
+    Banten: 0.377,
+    Bali: 0.362,
+    "Nusa Tenggara Barat": 0.374,
+    "Nusa Tenggara Timur": 0.34,
+    "Kalimantan Barat": 0.311,
+    "Kalimantan Tengah": 0.309,
+    "Kalimantan Selatan": 0.309,
+    "Kalimantan Timur": 0.317,
+    "Kalimantan Utara": 0.27,
+    "Sulawesi Utara": 0.359,
+    "Sulawesi Tengah": 0.305,
+    "Sulawesi Selatan": 0.365,
+    "Sulawesi Tenggara": 0.366,
+    Gorontalo: 0.423,
+    "Sulawesi Barat": 0.371,
+    Maluku: 0.306,
+    "Maluku Utara": 0.309,
+    "Papua Barat": 0.384,
+    "Papua Barat Daya": null,
+    Papua: 0.393,
+    "Papua Selatan": null,
+    "Papua Tengah": null,
+    "Papua Pegunungan": null,
+  },
+  2023: {
+    Aceh: 0.296,
+    "Sumatera Utara": 0.309,
+    "Sumatera Barat": 0.28,
+    Riau: 0.324,
+    Jambi: 0.343,
+    "Sumatera Selatan": 0.338,
+    Bengkulu: 0.333,
+    Lampung: 0.324,
+    "Kepulauan Bangka Belitung": 0.245,
+    "Kepulauan Riau": 0.34,
+    "DKI Jakarta": 0.431,
+    "Jawa Barat": 0.425,
+    "Jawa Tengah": 0.369,
+    "DI Yogyakarta": 0.449,
+    "Jawa Timur": 0.387,
+    Banten: 0.368,
+    Bali: 0.362,
+    "Nusa Tenggara Barat": 0.375,
+    "Nusa Tenggara Timur": 0.325,
+    "Kalimantan Barat": 0.321,
+    "Kalimantan Tengah": 0.317,
+    "Kalimantan Selatan": 0.313,
+    "Kalimantan Timur": 0.322,
+    "Kalimantan Utara": 0.277,
+    "Sulawesi Utara": 0.37,
+    "Sulawesi Tengah": 0.304,
+    "Sulawesi Selatan": 0.377,
+    "Sulawesi Tenggara": 0.371,
+    Gorontalo: 0.417,
+    "Sulawesi Barat": 0.351,
+    Maluku: 0.288,
+    "Maluku Utara": 0.3,
+    "Papua Barat": 0.37,
+    "Papua Barat Daya": null,
+    Papua: 0.386,
+    "Papua Selatan": null,
+    "Papua Tengah": null,
+    "Papua Pegunungan": null,
+  },
+  2024: {
+    Aceh: 0.294,
+    "Sumatera Utara": 0.306,
+    "Sumatera Barat": 0.287,
+    Riau: 0.306,
+    Jambi: 0.315,
+    "Sumatera Selatan": 0.331,
+    Bengkulu: 0.343,
+    Lampung: 0.301,
+    "Kepulauan Bangka Belitung": 0.235,
+    "Kepulauan Riau": 0.357,
+    "DKI Jakarta": 0.431,
+    "Jawa Barat": 0.428,
+    "Jawa Tengah": 0.364,
+    "DI Yogyakarta": 0.428,
+    "Jawa Timur": 0.373,
+    Banten: 0.359,
+    Bali: 0.348,
+    "Nusa Tenggara Barat": 0.364,
+    "Nusa Tenggara Timur": 0.316,
+    "Kalimantan Barat": 0.314,
+    "Kalimantan Tengah": 0.304,
+    "Kalimantan Selatan": 0.298,
+    "Kalimantan Timur": 0.31,
+    "Kalimantan Utara": 0.259,
+    "Sulawesi Utara": 0.347,
+    "Sulawesi Tengah": 0.309,
+    "Sulawesi Selatan": 0.36,
+    "Sulawesi Tenggara": 0.365,
+    Gorontalo: 0.413,
+    "Sulawesi Barat": 0.33,
+    Maluku: 0.291,
+    "Maluku Utara": 0.296,
+    "Papua Barat": 0.385,
+    "Papua Barat Daya": 0.347,
+    Papua: 0.405,
+    "Papua Selatan": 0.424,
+    "Papua Tengah": 0.355,
+    "Papua Pegunungan": 0.346,
+  },
+};
+
+// === SCATTER PLOT GINI vs KEMISKINAN ===
+const scatterCtx = document.getElementById("scatterChart").getContext("2d");
+let scatterChart;
+
+// Fungsi untuk inisialisasi scatter plot
+function initScatterPlot() {
+  scatterChart = new Chart(scatterCtx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Provinsi",
+          data: [],
+          backgroundColor: "#adcceb",
+          borderColor: "#5fa9f3", // Warna biru untuk outline
+          borderWidth: 2, // Ketebalan outline
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          pointHoverBorderWidth: 3, // Ketebalan outline saat hover
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Indeks Gini",
+          },
+          min: 0.2,
+          max: 0.5,
+          grid: {
+            display: false, // Menghilangkan grid pada sumbu X
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Tingkat Kemiskinan (%)",
+          },
+          min: 0,
+          max: 35,
+          grid: {
+            display: false, // Menghilangkan grid pada sumbu Y
+          },
+        },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              return `${context.raw.province}: Gini ${context.parsed.x.toFixed(
+                3
+              )}, Kemiskinan ${context.parsed.y.toFixed(2)}%`;
+            },
+          },
+        },
+        legend: {
+          display: false,
+        },
+      },
+    },
+  });
+
+  // Load data awal (2024)
+  updateScatterPlot("2024");
+}
+// Fungsi untuk mendapatkan data gabungan Gini dan Kemiskinan per provinsi
+function getCombinedProvinceData(year) {
+  const giniData = Indeksgini[year];
+  const povertyData = kemiskinanData[year];
+
+  const combinedData = [];
+
+  for (const province in povertyData) {
+    if (
+      province !== "Indonesia" &&
+      giniData[province] &&
+      povertyData[province]
+    ) {
+      combinedData.push({
+        province: province,
+        gini: giniData[province],
+        poverty: povertyData[province],
+      });
+    }
+  }
+
+  return combinedData;
+}
+
+// Fungsi untuk update scatter plot
+function updateScatterPlot(year) {
+  const combinedData = getCombinedProvinceData(year);
+
+  scatterChart.data.datasets[0].data = combinedData.map((item) => ({
+    x: item.gini,
+    y: item.poverty,
+    province: item.province,
+  }));
+
+  scatterChart.update();
+}
+
+// Update fungsi handleYearChange untuk memanggil updateScatterPlot
+function handleYearChange() {
+  const selectedYear = document.getElementById("year").value;
+  updateKPIs(selectedYear);
+  updateScatterPlot(selectedYear);
+  updateMapKemiskinan(selectedYear);
+
+  document.querySelector(
+    ".dashboard-header p"
+  ).textContent = `Analisis Indikator Sosial Ekonomi 2020-${selectedYear}`;
+}
+
 // Chart 1: Trend Chart
 const trendCtx = document.getElementById("trendChart").getContext("2d");
 const trendChart = new Chart(trendCtx, {
@@ -294,17 +639,17 @@ const urbanRuralChart = new Chart(urbanRuralCtx, {
       {
         label: "Perkotaan",
         data: [7.88, 7.6, 7.53, 7.29, 6.66],
-        backgroundColor: "#7f0000",
+        backgroundColor: "#08306b",
       },
       {
         label: "Pedesaan",
         data: [13.2, 12.53, 12.36, 12.22, 11.34],
-        backgroundColor: "#d7301f",
+        backgroundColor: "#2171b5",
       },
       {
         label: "Perkotaan + Pedesaan",
         data: [10.19, 9.71, 9.57, 9.36, 8.57],
-        backgroundColor: "#fdd49e",
+        backgroundColor: "#c6dbef",
       },
     ],
   },
@@ -429,37 +774,37 @@ const regionalChart = new Chart(regionalCtx, {
       {
         label: "Jawa",
         data: [9.31, 8.82, 8.63, 8.4, 7.74],
-        borderColor: "#eab308",
+        borderColor: "#ef4444",
         tension: 0.3,
       },
       {
         label: "Sumatera",
         data: [9.82, 9.4, 9.2, 9.0, 8.24],
-        borderColor: "#ffe100",
+        borderColor: "#3b82f6",
         tension: 0.3,
       },
       {
         label: "Kalimantan",
         data: [6.28, 5.93, 5.99, 5.73, 5.28],
-        borderColor: "#e8b778",
+        borderColor: "#22c55e",
         tension: 0.3,
       },
       {
         label: "Sulawesi",
         data: [11.44, 11.18, 11.17, 11.09, 10.12],
-        borderColor: "#ef4444",
+        borderColor: "#eab308",
         tension: 0.3,
       },
       {
         label: "Bali & Nusa Tenggara",
         data: [13.3, 13.0, 12.86, 12.69, 11.58],
-        borderColor: "#d7301f",
+        borderColor: "#8b5cf6",
         tension: 0.3,
       },
       {
         label: "Maluku & Papua",
         data: [18.37, 17.97, 17.71, 17.35, 19.32],
-        borderColor: "#00000",
+        borderColor: "#ec4899",
         tension: 0.3,
       },
     ],
@@ -491,7 +836,6 @@ const regionalChart = new Chart(regionalCtx, {
 // === GLOBAL VARIABLES ===
 let provinsiTerpilih = "INDONESIA"; // Default nasional
 let map, geoLayer;
-const tahunList = ["2020", "2021", "2022", "2023", "2024"];
 
 const kemiskinanData = {
   2020: {
@@ -701,27 +1045,34 @@ const kemiskinanData = {
   },
 };
 
-// === INISIALISASI PETA ===
-map = L.map("map").setView([-2.5, 118], 4.2);
+// === INISIALISASI PETA (tanpa OSM, tanpa drag/zoom) ===
+map = L.map("map", {
+  center: [-2.5, 118],
+  zoom: 3.9,
+  zoomControl: false,
+  dragging: false,
+  scrollWheelZoom: false,
+  doubleClickZoom: false,
+  boxZoom: false,
+  touchZoom: false,
+  minZoom: 3.9,
+  maxZoom: 3.9,
+  attributionControl: false,
+});
 
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "© OpenStreetMap",
-}).addTo(map);
+// Tidak perlu tileLayer OSM sama sekali
 
-// Tambahkan latar gelap di luar Indonesia
-addDarkBackground();
-
-// === FUNGSI WARNA PETA UNTUK KEMISKINAN ===
+// === FUNGSI WARNA PETA UNTUK KEMISKINAN (rendah = biru, tinggi = merah) ===
 function getColorKemiskinan(val) {
   return val > 20
-    ? "#7f0000" // merah tua
+    ? "#e60000"
     : val > 15
-    ? "#d7301f" // merah
+    ? "#ff5733"
     : val > 10
-    ? "#fc8d59" // oranye
+    ? "#fd8d3c"
     : val > 5
-    ? "#fdd49e" // kuning oranye terang
-    : "#fff7ec"; // kuning sangat terang
+    ? "#66b2ff"
+    : "#0073e6";
 }
 
 // === UPDATE PETA KEMISKINAN ===
@@ -750,7 +1101,6 @@ function updateMapKemiskinan(tahun) {
       );
 
       layer.on("click", () => {
-        // Toggle provinsi
         provinsiTerpilih =
           provinsiTerpilih === provinsi ? "INDONESIA" : provinsi;
         updateBarChart(); // opsional
@@ -758,29 +1108,5 @@ function updateMapKemiskinan(tahun) {
         layer.openPopup();
       });
     },
-  }).addTo(map);
-}
-
-// === DARK BACKGROUND DI LUAR INDONESIA ===
-function addDarkBackground() {
-  const worldBounds = [
-    [-90, -180],
-    [90, 180],
-  ];
-  const indonesiaBounds = [
-    [-11, 95],
-    [6, 141],
-  ];
-
-  L.rectangle(worldBounds, {
-    color: "#000",
-    weight: 0,
-    fillOpacity: 0.5,
-  }).addTo(map);
-
-  L.rectangle(indonesiaBounds, {
-    color: "#000",
-    weight: 0,
-    fillOpacity: 0,
   }).addTo(map);
 }
